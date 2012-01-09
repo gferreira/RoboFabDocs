@@ -1,5 +1,5 @@
-Robofab Base Classes
-====================
+objectsBase
+===========
 
 These are base classes for `Font`, `Glyph`, `Contour`, `Segment` and `Point` objects. This defines the basic API that needs to be supported in RoboFab objects.
 
