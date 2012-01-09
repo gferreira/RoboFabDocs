@@ -1,9 +1,0 @@
-.. highlight:: python
-
-===============
-angledMarginPen
-===============
-
-.. automodule:: robofab.pens.angledMarginPen
-   :inherited-members:
-   :members:
