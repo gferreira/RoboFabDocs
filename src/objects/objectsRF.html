@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>objectsRF &mdash; RoboFab 1.3.0a documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3.0a',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="RoboFab 1.3.0a documentation" href="../index.html" />
+    <link rel="next" title="rfUFOPen" href="../pens/rfUFOPen.html" />
+    <link rel="prev" title="objectsBase" href="objectsBase.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../pens/rfUFOPen.html" title="rfUFOPen"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="objectsBase.html" title="objectsBase"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">RoboFab 1.3.0a documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-robofab.objects.objectsRF">
+<span id="objectsrf"></span><h1>objectsRF<a class="headerlink" href="#module-robofab.objects.objectsRF" title="Permalink to this headline">¶</a></h1>
+<p>This is the new doc for the objectsRF module.</p>
+<dl class="function">
+<dt id="robofab.objects.objectsRF.CurrentFont">
+<tt class="descclassname">robofab.objects.objectsRF.</tt><tt class="descname">CurrentFont</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#CurrentFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.CurrentFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>CurrentFont is not available in objectsRF.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="robofab.objects.objectsRF.CurrentGlyph">
+<tt class="descclassname">robofab.objects.objectsRF.</tt><tt class="descname">CurrentGlyph</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#CurrentGlyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.CurrentGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>CurrentGlyph is not available in objectsRF.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="robofab.objects.objectsRF.OpenFont">
+<tt class="descclassname">robofab.objects.objectsRF.</tt><tt class="descname">OpenFont</tt><big>(</big><em>path=None</em>, <em>note=None</em><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#OpenFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.OpenFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a font from a path. If path is not given, present the user with a dialog (availability of dialogs will vary)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="robofab.objects.objectsRF.RFont">
+<em class="property">class </em><tt class="descclassname">robofab.objects.objectsRF.</tt><tt class="descname">RFont</tt><big>(</big><em>path=None</em><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#RFont"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.RFont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Font object representing the data in an UFO.</p>
+<blockquote>
+<div><ul class="simple">
+<li>myFontInstace[&#8216;A&#8217;]    access the font as a dictionary with glyphnames as key</li>
+</ul>
+</div></blockquote>
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.autoUnicodes">
+<tt class="descname">autoUnicodes</tt><big>(</big><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.autoUnicodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using fontTools.agl, assign Unicode lists to all glyphs in the font</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.close">
+<tt class="descname">close</tt><big>(</big><em>save=1</em><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the font, saving is optional.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.compileGlyph">
+<tt class="descname">compileGlyph</tt><big>(</big><em>glyphName</em>, <em>baseName</em>, <em>accentNames</em>, <em>adjustWidth=False</em>, <em>preflight=False</em>, <em>printErrors=True</em><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.compileGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile components into a new glyph using components and anchorpoints.
+glyphName: the name of the glyph where it all needs to go
+baseName: the name of the base glyph
+accentNames: a list of accentName, anchorName tuples, [(&#8216;acute&#8217;, &#8216;top&#8217;), etc]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.copy">
+<tt class="descname">copy</tt><big>(</big><em>aParent=None</em><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Duplicate this object. Pass an object for parenting if you want.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.generateGlyph">
+<tt class="descname">generateGlyph</tt><big>(</big><em>glyphName</em>, <em>replace=1</em>, <em>preflight=False</em>, <em>printErrors=True</em><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.generateGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a glyph and return it. Assembled from GlyphConstruction.txt</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.getCharacterMapping">
+<tt class="descname">getCharacterMapping</tt><big>(</big><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.getCharacterMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dictionary of unicode -&gt; [glyphname, ...] mappings.
+Note that this dict is created each time this method is called, 
+which can make it expensive for larger fonts. All glyphs are loaded.
+Note that one glyph can have multiple unicode values,
+and a unicode value can have multiple glyphs pointing to it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.getParent">
+<tt class="descname">getParent</tt><big>(</big><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.getParent" title="Permalink to this definition">¶</a></dt>
+<dd><p>this method will be overwritten with a weakref if there is a parent.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.getReverseComponentMapping">
+<tt class="descname">getReverseComponentMapping</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#RFont.getReverseComponentMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.RFont.getReverseComponentMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a reversed map of component references in the font.
+{
+&#8216;A&#8217; : [&#8216;Aacute&#8217;, &#8216;Aring&#8217;]
+&#8216;acute&#8217; : [&#8216;Aacute&#8217;]
+&#8216;ring&#8217; : [&#8216;Aring&#8217;]
+etc.
+}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.insertGlyph">
+<tt class="descname">insertGlyph</tt><big>(</big><em>glyph</em>, <em>name=None</em><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#RFont.insertGlyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.RFont.insertGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a new glyph that has been inserted into the font</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.interpolate">
+<tt class="descname">interpolate</tt><big>(</big><em>factor</em>, <em>minFont</em>, <em>maxFont</em>, <em>suppressError=True</em>, <em>analyzeOnly=False</em>, <em>doProgress=False</em><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Traditional interpolation method. Interpolates by factor between minFont and maxFont.
+suppressError will supress all tracebacks and analyze only will not perform the interpolation
+but it will analyze all glyphs and return a dict of problems.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.isRobofab">
+<tt class="descname">isRobofab</tt><big>(</big><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.isRobofab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presence of this method indicates a Robofab object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.naked">
+<tt class="descname">naked</tt><big>(</big><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.naked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the wrapped object itself, in case it is needed for direct access.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.newGlyph">
+<tt class="descname">newGlyph</tt><big>(</big><em>glyphName</em>, <em>clear=True</em><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#RFont.newGlyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.RFont.newGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a new glyph with glyphName
+if the glyph exists and clear=True clear the glyph</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="robofab.objects.objectsRF.RFont.path">
+<tt class="descname">path</tt><a class="headerlink" href="#robofab.objects.objectsRF.RFont.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>path of the font</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.removeGlyph">
+<tt class="descname">removeGlyph</tt><big>(</big><em>glyphName</em><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#RFont.removeGlyph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.RFont.removeGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove a glyph from the font</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.round">
+<tt class="descname">round</tt><big>(</big><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.round" title="Permalink to this definition">¶</a></dt>
+<dd><p>round all of the points in all of the glyphs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.save">
+<tt class="descname">save</tt><big>(</big><em>destDir=None</em>, <em>doProgress=False</em>, <em>formatVersion=2</em><big>)</big><a class="reference internal" href="../_modules/robofab/objects/objectsRF.html#RFont.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.objects.objectsRF.RFont.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the Font in UFO format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.objects.objectsRF.RFont.update">
+<tt class="descname">update</tt><big>(</big><big>)</big><a class="headerlink" href="#robofab.objects.objectsRF.RFont.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>update the font</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="objectsBase.html"
+                        title="previous chapter">objectsBase</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../pens/rfUFOPen.html"
+                        title="next chapter">rfUFOPen</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/objects/objectsRF.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../pens/rfUFOPen.html" title="rfUFOPen"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="objectsBase.html" title="objectsBase"
+             >previous</a> |</li>
+        <li><a href="../index.html">RoboFab 1.3.0a documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Tal Leming, Erik van Blokland, Just van Rossum.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

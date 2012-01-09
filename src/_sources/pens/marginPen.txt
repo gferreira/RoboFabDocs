@@ -1,0 +1,9 @@
+.. highlight:: python
+
+=========
+marginPen
+=========
+
+.. automodule:: robofab.pens.marginPen
+   :inherited-members:
+   :members:

@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>digestPen &mdash; RoboFab 1.3.0a documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3.0a',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="RoboFab 1.3.0a documentation" href="../index.html" />
+    <link rel="next" title="mathPens" href="mathPens.html" />
+    <link rel="prev" title="rfUFOPen" href="rfUFOPen.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mathPens.html" title="mathPens"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rfUFOPen.html" title="rfUFOPen"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">RoboFab 1.3.0a documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-robofab.pens.digestPen">
+<span id="digestpen"></span><h1>digestPen<a class="headerlink" href="#module-robofab.pens.digestPen" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="robofab.pens.digestPen.DigestPointPen">
+<em class="property">class </em><tt class="descclassname">robofab.pens.digestPen.</tt><tt class="descname">DigestPointPen</tt><big>(</big><em>ignoreSmoothAndName=False</em><big>)</big><a class="reference internal" href="../_modules/robofab/pens/digestPen.html#DigestPointPen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.pens.digestPen.DigestPointPen" title="Permalink to this definition">¶</a></dt>
+<dd><p>This calculates a tuple representing the structure and values in a glyph:</p>
+<blockquote>
+<div><ul class="simple">
+<li>including coordinates</li>
+<li>including components</li>
+</ul>
+</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">robofab.pens.digestPen</span> <span class="kn">import</span> <span class="n">DigestPointPen</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pen</span> <span class="o">=</span> <span class="n">DigestPointPen</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">drawPoints</span><span class="p">(</span><span class="n">pen</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pen</span><span class="o">.</span><span class="n">getDigest</span><span class="p">()</span>
+<span class="go">(&#39;beginPath&#39;, ((25, 425), &#39;line&#39;, False, None),((25, 0), &#39;line&#39;, False, None),((95, 0), &#39;line&#39;, False, None),((95, 425), &#39;line&#39;, False, None), &#39;endPath&#39;,</span>
+<span class="go"> &#39;beginPath&#39;, ((25, 595), &#39;line&#39;, False, None),((25, 491), &#39;line&#39;, False, None),((95, 491), &#39;line&#39;, False, None),((95, 595), &#39;line&#39;, False, None), &#39;endPath&#39;)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="robofab.pens.digestPen.DigestPointPen.getDigest">
+<tt class="descname">getDigest</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/robofab/pens/digestPen.html#DigestPointPen.getDigest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.pens.digestPen.DigestPointPen.getDigest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the digest as a tuple with all coordinates of all points.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.pens.digestPen.DigestPointPen.getDigestPointsOnly">
+<tt class="descname">getDigestPointsOnly</tt><big>(</big><em>needSort=True</em><big>)</big><a class="reference internal" href="../_modules/robofab/pens/digestPen.html#DigestPointPen.getDigestPointsOnly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.pens.digestPen.DigestPointPen.getDigestPointsOnly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the digest as a tuple with all coordinates of all points, 
+- but without smooth info or drawing instructions.
+- For instance if you want to compare 2 glyphs in shape,</p>
+<blockquote>
+<div>but not interpolatability.</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="robofab.pens.digestPen.DigestPointStructurePen">
+<em class="property">class </em><tt class="descclassname">robofab.pens.digestPen.</tt><tt class="descname">DigestPointStructurePen</tt><big>(</big><em>ignoreSmoothAndName=False</em><big>)</big><a class="reference internal" href="../_modules/robofab/pens/digestPen.html#DigestPointStructurePen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#robofab.pens.digestPen.DigestPointStructurePen" title="Permalink to this definition">¶</a></dt>
+<dd><p>This calculates a tuple representing the structure and values in a glyph:</p>
+<blockquote>
+<div><ul class="simple">
+<li>excluding coordinates</li>
+<li>excluding components</li>
+</ul>
+</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">robofab.pens.digestPen</span> <span class="kn">import</span> <span class="n">DigestPointStructurePen</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pen</span> <span class="o">=</span> <span class="n">DigestPointStructurePen</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">CurrentGlyph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">drawPoints</span><span class="p">(</span><span class="n">pen</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pen</span><span class="o">.</span><span class="n">getDigest</span><span class="p">()</span>
+<span class="go"> (&#39;beginPath&#39;, &#39;line&#39;, &#39;line&#39;, &#39;line&#39;, &#39;line&#39;, &#39;endPath&#39;, &#39;beginPath&#39;, &#39;line&#39;, &#39;line&#39;, &#39;line&#39;, &#39;line&#39;, &#39;endPath&#39;)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="robofab.pens.digestPen.DigestPointStructurePen.getDigest">
+<tt class="descname">getDigest</tt><big>(</big><big>)</big><a class="headerlink" href="#robofab.pens.digestPen.DigestPointStructurePen.getDigest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the digest as a tuple with all coordinates of all points.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="robofab.pens.digestPen.DigestPointStructurePen.getDigestPointsOnly">
+<tt class="descname">getDigestPointsOnly</tt><big>(</big><em>needSort=True</em><big>)</big><a class="headerlink" href="#robofab.pens.digestPen.DigestPointStructurePen.getDigestPointsOnly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the digest as a tuple with all coordinates of all points, 
+- but without smooth info or drawing instructions.
+- For instance if you want to compare 2 glyphs in shape,</p>
+<blockquote>
+<div>but not interpolatability.</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rfUFOPen.html"
+                        title="previous chapter">rfUFOPen</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mathPens.html"
+                        title="next chapter">mathPens</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/pens/digestPen.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mathPens.html" title="mathPens"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rfUFOPen.html" title="rfUFOPen"
+             >previous</a> |</li>
+        <li><a href="../index.html">RoboFab 1.3.0a documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Tal Leming, Erik van Blokland, Just van Rossum.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

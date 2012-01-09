@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>robofab.pens.marginPen &mdash; RoboFab 1.3.0a documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.3.0a',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="RoboFab 1.3.0a documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">RoboFab 1.3.0a documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for robofab.pens.marginPen</h1><pre>
+from fontTools.pens.basePen import AbstractPen, BasePen
+from fontTools.misc.bezierTools import splitLine, splitCubic
+
+
+from sets import Set
+
+<div class="viewcode-block" id="MarginPen"><a class="viewcode-back" href="../../../pens/marginPen.html#robofab.pens.marginPen.MarginPen">[docs]</a>class MarginPen(BasePen):
+
+	"""
+		Pen to calculate the margins at a given value.
+			When isHorizontal is True, the margins at &lt;value&gt; are horizontal.
+			When isHorizontal is False, the margins at &lt;value&gt; are vertical.
+		
+		When a glyphset or font is given, MarginPen will also calculate for glyphs with components.
+
+		pen.getMargins() returns the minimum and maximum intersections of the glyph.
+		pen.getContourMargins() returns the minimum and maximum intersections for each contour.
+		
+		
+		Possible optimisation:
+		Initialise the pen object with a list of points we want to measure,
+		then draw the glyph once, but do the splitLine() math for all measure points.
+		
+	"""
+
+	def __init__(self, glyphSet, value, isHorizontal=True):
+		BasePen.__init__(self, glyphSet)
+		self.value = value
+		self.hits = {}
+		self.filterDoubles = True
+		self.contourIndex = None
+		self.startPt = None
+		self.isHorizontal = isHorizontal
+		
+	def _moveTo(self, pt):
+		self.currentPt = pt
+		self.startPt = pt
+		if self.contourIndex is None:
+			self.contourIndex = 0
+		else:
+			self.contourIndex += 1
+
+	def _lineTo(self, pt):
+		if self.filterDoubles:
+			if pt == self.currentPt:
+				return
+		hits = splitLine(self.currentPt, pt, self.value, self.isHorizontal)
+		if len(hits)&gt;1:
+			# result will be 2 tuples of 2 coordinates
+			# first two points: start to intersect
+			# second two points: intersect to end
+			# so, second point in first tuple is the intersect
+			# then, the first coordinate of that point is the x.
+			if not self.contourIndex in self.hits:
+				self.hits[self.contourIndex] = []
+			if self.isHorizontal:
+				self.hits[self.contourIndex].append(round(hits[0][-1][0], 4))
+			else:
+				self.hits[self.contourIndex].append(round(hits[0][-1][1], 4))
+		if self.isHorizontal and pt[1] == self.value:
+			# it could happen
+			if not self.contourIndex in self.hits:
+				self.hits[self.contourIndex] =	[]
+			self.hits[self.contourIndex].append(pt[0])
+		elif (not self.isHorizontal) and (pt[0] == self.value):
+			# it could happen
+			if not self.contourIndex in self.hits:
+				self.hits[self.contourIndex] =	[]
+			self.hits[self.contourIndex].append(pt[1])
+		self.currentPt = pt
+
+	def _curveToOne(self, pt1, pt2, pt3):
+		hits = splitCubic(self.currentPt, pt1, pt2, pt3, self.value, self.isHorizontal)
+		for i in range(len(hits)-1):
+			# a number of intersections is possible. Just take the 
+			# last point of each segment.
+			if not self.contourIndex in self.hits:
+				self.hits[self.contourIndex] = []
+			if self.isHorizontal:
+				self.hits[self.contourIndex].append(round(hits[i][-1][0], 4))
+			else:
+				self.hits[self.contourIndex].append(round(hits[i][-1][1], 4))
+		if self.isHorizontal and pt3[1] == self.value:
+			# it could happen
+			if not self.contourIndex in self.hits:
+				self.hits[self.contourIndex] = []
+			self.hits[self.contourIndex].append(pt3[0])
+		if (not self.isHorizontal) and (pt3[0] == self.value):
+			# it could happen
+			if not self.contourIndex in self.hits:
+				self.hits[self.contourIndex] = []
+			self.hits[self.contourIndex].append(pt3[1])
+		self.currentPt = pt3
+		
+	def _closePath(self):
+		if self.currentPt != self.startPt:
+			self._lineTo(self.startPt)
+		self.currentPt = self.startPt = None
+	
+	def _endPath(self):
+		self.currentPt = None
+
+	def addComponent(self, baseGlyph, transformation):
+		if self.glyphSet is None:
+			return
+		if baseGlyph in self.glyphSet:
+			glyph = self.glyphSet[baseGlyph]
+		if glyph is not None:
+			glyph.draw(self)
+		
+<div class="viewcode-block" id="MarginPen.getMargins"><a class="viewcode-back" href="../../../pens/marginPen.html#robofab.pens.marginPen.MarginPen.getMargins">[docs]</a>	def getMargins(self):
+		"""Get the horizontal margins for all contours combined, i.e. the whole glyph."""
+		allHits = []
+		for index, pts in self.hits.items():
+			allHits.extend(pts)
+		if allHits:
+			return min(allHits), max(allHits)
+		return None
+		</div>
+<div class="viewcode-block" id="MarginPen.getContourMargins"><a class="viewcode-back" href="../../../pens/marginPen.html#robofab.pens.marginPen.MarginPen.getContourMargins">[docs]</a>	def getContourMargins(self):
+		"""Get the horizontal margins for each contour."""
+		allHits = {}
+		for index, pts in self.hits.items():
+			unique = list(Set(pts))
+			unique.sort()
+			allHits[index] = unique
+		return allHits
+		</div>
+<div class="viewcode-block" id="MarginPen.getAll"><a class="viewcode-back" href="../../../pens/marginPen.html#robofab.pens.marginPen.MarginPen.getAll">[docs]</a>	def getAll(self):
+		"""Get all the slices."""
+		allHits = []
+		for index, pts in self.hits.items():
+			allHits.extend(pts)
+		unique = list(Set(allHits))
+		unique = list(unique)
+		unique.sort()
+		return unique
+		
+		</div></div>
+if __name__ == "__main__":
+
+	from robofab.world import CurrentGlyph, CurrentFont
+	f = CurrentFont()
+	g = CurrentGlyph()
+
+	pt = (74, 216)
+
+	pen = MarginPen(f, pt[1], isHorizontal=False)
+	g.draw(pen) 
+	print 'glyph Y margins', pen.getMargins()
+	print pen.getContourMargins()
+
+</pre>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">RoboFab 1.3.0a documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Tal Leming, Erik van Blokland, Just van Rossum.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

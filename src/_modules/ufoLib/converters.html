@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ufoLib.converters &mdash; RoboFab 1.3.0a documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.0a',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="RoboFab 1.3.0a documentation" href="../../index.html" />
+    <link rel="up" title="ufoLib" href="../ufoLib.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">RoboFab 1.3.0a documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../ufoLib.html" accesskey="U">ufoLib</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for ufoLib.converters</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Conversion functions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c"># taken form the UFO spec</span>
+
+<span class="k">def</span> <span class="nf">convertUFO1OrUFO2KerningToUFO3Kerning</span><span class="p">(</span><span class="n">kerning</span><span class="p">,</span> <span class="n">groups</span><span class="p">):</span>
+    <span class="c"># Make lists of groups referenced in kerning pairs.</span>
+    <span class="n">firstReferencedGroups</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">secondReferencedGroups</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">first</span><span class="p">,</span> <span class="n">seconds</span> <span class="ow">in</span> <span class="n">kerning</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">first</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">first</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;public.kern1.&quot;</span><span class="p">):</span>
+                <span class="n">firstReferencedGroups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">first</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">second</span> <span class="ow">in</span> <span class="n">seconds</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">second</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">second</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;public.kern2.&quot;</span><span class="p">):</span>
+                    <span class="n">secondReferencedGroups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">second</span><span class="p">)</span>
+    <span class="c"># Create new names for these groups.</span>
+    <span class="n">firstRenamedGroups</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">first</span> <span class="ow">in</span> <span class="n">firstReferencedGroups</span><span class="p">:</span>
+        <span class="c"># Make a list of existing group names.</span>
+        <span class="n">existingGroupNames</span> <span class="o">=</span> <span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">+</span> <span class="n">firstRenamedGroups</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="c"># Add the prefix to the name.</span>
+        <span class="n">newName</span> <span class="o">=</span> <span class="s">&quot;public.kern1.&quot;</span> <span class="o">+</span> <span class="n">first</span>
+        <span class="c"># Make a unique group name.</span>
+        <span class="n">newName</span> <span class="o">=</span> <span class="n">makeUniqueGroupName</span><span class="p">(</span><span class="n">newName</span><span class="p">,</span> <span class="n">existingGroupNames</span><span class="p">)</span>
+        <span class="c"># Store for use later.</span>
+        <span class="n">firstRenamedGroups</span><span class="p">[</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">newName</span>
+    <span class="n">secondRenamedGroups</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">second</span> <span class="ow">in</span> <span class="n">secondReferencedGroups</span><span class="p">:</span>
+        <span class="c"># Make a list of existing group names.</span>
+        <span class="n">existingGroupNames</span> <span class="o">=</span> <span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">+</span> <span class="n">secondRenamedGroups</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="c"># Add the prefix to the name.</span>
+        <span class="n">newName</span> <span class="o">=</span> <span class="s">&quot;public.kern2.&quot;</span> <span class="o">+</span> <span class="n">second</span>
+        <span class="c"># Make a unique group name.</span>
+        <span class="n">newName</span> <span class="o">=</span> <span class="n">makeUniqueGroupName</span><span class="p">(</span><span class="n">newName</span><span class="p">,</span> <span class="n">existingGroupNames</span><span class="p">)</span>
+        <span class="c"># Store for use later.</span>
+        <span class="n">secondRenamedGroups</span><span class="p">[</span><span class="n">second</span><span class="p">]</span> <span class="o">=</span> <span class="n">newName</span>
+    <span class="c"># Populate the new group names into the kerning dictionary as needed.</span>
+    <span class="n">newKerning</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">first</span><span class="p">,</span> <span class="n">seconds</span> <span class="ow">in</span> <span class="n">kerning</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="n">firstRenamedGroups</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">first</span><span class="p">)</span>
+        <span class="n">newSeconds</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">second</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">seconds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">second</span> <span class="o">=</span> <span class="n">secondRenamedGroups</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">second</span><span class="p">,</span> <span class="n">second</span><span class="p">)</span>
+            <span class="n">newSeconds</span><span class="p">[</span><span class="n">second</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">newKerning</span><span class="p">[</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">newSeconds</span>
+    <span class="c"># Make copies of the referenced groups and store them</span>
+    <span class="c"># under the new names in the overall groups dictionary.</span>
+    <span class="n">allRenamedGroups</span> <span class="o">=</span> <span class="n">firstRenamedGroups</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="n">allRenamedGroups</span> <span class="o">+=</span> <span class="n">secondRenamedGroups</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">oldName</span><span class="p">,</span> <span class="n">newName</span> <span class="ow">in</span> <span class="n">allRenamedGroups</span><span class="p">:</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">groups</span><span class="p">[</span><span class="n">oldName</span><span class="p">])</span>
+        <span class="n">groups</span><span class="p">[</span><span class="n">newName</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
+    <span class="c"># Return the kerning and the groups.</span>
+    <span class="k">return</span> <span class="n">newKerning</span><span class="p">,</span> <span class="n">groups</span>
+
+<span class="k">def</span> <span class="nf">makeUniqueGroupName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">groupNames</span><span class="p">,</span> <span class="n">counter</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="c"># Add a number to the name if the counter is higher than zero.</span>
+    <span class="n">newName</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">if</span> <span class="n">counter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">newName</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">newName</span><span class="p">,</span> <span class="n">counter</span><span class="p">)</span>
+    <span class="c"># If the new name is in the existing group names, recurse.</span>
+    <span class="k">if</span> <span class="n">newName</span> <span class="ow">in</span> <span class="n">groupNames</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">makeUniqueGroupName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">groupNames</span><span class="p">,</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c"># Otherwise send back the new name.</span>
+    <span class="k">return</span> <span class="n">newName</span>
+
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../ufoLib/converters.html#ufoLib.converters.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; testKerning = {</span>
+<span class="sd">    ...     &quot;A&quot; : {</span>
+<span class="sd">    ...         &quot;A&quot; : 1,</span>
+<span class="sd">    ...         &quot;B&quot; : 2,</span>
+<span class="sd">    ...         &quot;CGroup&quot; : 3,</span>
+<span class="sd">    ...         &quot;DGroup&quot; : 4</span>
+<span class="sd">    ...     },</span>
+<span class="sd">    ...     &quot;BGroup&quot; : {</span>
+<span class="sd">    ...         &quot;A&quot; : 5,</span>
+<span class="sd">    ...         &quot;B&quot; : 6,</span>
+<span class="sd">    ...         &quot;CGroup&quot; : 7,</span>
+<span class="sd">    ...         &quot;DGroup&quot; : 8</span>
+<span class="sd">    ...     },</span>
+<span class="sd">    ...     &quot;CGroup&quot; : {</span>
+<span class="sd">    ...         &quot;A&quot; : 9,</span>
+<span class="sd">    ...         &quot;B&quot; : 10,</span>
+<span class="sd">    ...         &quot;CGroup&quot; : 11,</span>
+<span class="sd">    ...         &quot;DGroup&quot; : 12</span>
+<span class="sd">    ...     },</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; testGroups = {</span>
+<span class="sd">    ...     &quot;BGroup&quot; : [&quot;B&quot;],</span>
+<span class="sd">    ...     &quot;CGroup&quot; : [&quot;C&quot;],</span>
+<span class="sd">    ...     &quot;DGroup&quot; : [&quot;D&quot;],</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; kerning, groups = convertUFO1OrUFO2KerningToUFO3Kerning(</span>
+<span class="sd">    ...     testKerning, testGroups)</span>
+<span class="sd">    &gt;&gt;&gt; expected = {</span>
+<span class="sd">    ...     &quot;A&quot; : {</span>
+<span class="sd">    ...         &quot;A&quot;: 1,</span>
+<span class="sd">    ...         &quot;B&quot;: 2,</span>
+<span class="sd">    ...         &quot;public.kern2.CGroup&quot;: 3,</span>
+<span class="sd">    ...         &quot;public.kern2.DGroup&quot;: 4</span>
+<span class="sd">    ...     },</span>
+<span class="sd">    ...     &quot;public.kern1.BGroup&quot;: {</span>
+<span class="sd">    ...         &quot;A&quot;: 5,</span>
+<span class="sd">    ...         &quot;B&quot;: 6,</span>
+<span class="sd">    ...         &quot;public.kern2.CGroup&quot;: 7,</span>
+<span class="sd">    ...         &quot;public.kern2.DGroup&quot;: 8</span>
+<span class="sd">    ...     },</span>
+<span class="sd">    ...     &quot;public.kern1.CGroup&quot;: {</span>
+<span class="sd">    ...         &quot;A&quot;: 9,</span>
+<span class="sd">    ...         &quot;B&quot;: 10,</span>
+<span class="sd">    ...         &quot;public.kern2.CGroup&quot;: 11,</span>
+<span class="sd">    ...         &quot;public.kern2.DGroup&quot;: 12</span>
+<span class="sd">    ...     }</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; kerning == expected</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; expected = {</span>
+<span class="sd">    ...     &quot;BGroup&quot;: [&quot;B&quot;],</span>
+<span class="sd">    ...     &quot;CGroup&quot;: [&quot;C&quot;],</span>
+<span class="sd">    ...     &quot;DGroup&quot;: [&quot;D&quot;],</span>
+<span class="sd">    ...     &quot;public.kern1.BGroup&quot;: [&quot;B&quot;],</span>
+<span class="sd">    ...     &quot;public.kern1.CGroup&quot;: [&quot;C&quot;],</span>
+<span class="sd">    ...     &quot;public.kern2.CGroup&quot;: [&quot;C&quot;],</span>
+<span class="sd">    ...     &quot;public.kern2.DGroup&quot;: [&quot;D&quot;],</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; groups == expected</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="kn">import</span> <span class="nn">doctest</span>
+	<span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">RoboFab 1.3.0a documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../ufoLib.html" >ufoLib</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Tal Leming, Erik van Blokland, Just van Rossum.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>
